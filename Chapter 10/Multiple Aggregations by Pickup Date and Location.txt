@@ -1,0 +1,17 @@
+let
+  Source = Sql.Database("localhost", "NYC_Taxi"), 
+  TripData = Source{[Schema = "dbo", Item = "trip_data_yellow"]}[Data], 
+  AggregatedRows = Table.Group(
+    TripData, 
+    {"PickupDate", "PULocationID"}, 
+    {
+      {"Sum_Total_Amount", each List.Sum([total_amount]), type nullable number}, 
+      {"Max_Total_Amount", each List.Max([total_amount]), type nullable number}, 
+      {"Min_Total_Amount", each List.Min([total_amount]), type nullable number}, 
+      {"Average_Total_Amount", each List.Average([total_amount]), type nullable number}, 
+      {"Median_Total_Amount", each List.Median([total_amount]), type nullable number}, 
+      {"Count_Total_Amount", each Table.RowCount(_), Int64.Type}
+    }
+  )
+in
+  AggregatedRows

@@ -1,0 +1,6 @@
+let
+  Source = AmazonRedshift.Database(“<workgroup>.<AWS Account>.us-east-2.redshift-serverless.amazonaws.com:5439”,”nyctaxi”),
+  Schema = Source{[Name="public",Kind="Schema"]}[Data],
+  Table = Schema{[Name="taxi_zone_lookup",Kind="Table"]}[Data]
+in
+  Table

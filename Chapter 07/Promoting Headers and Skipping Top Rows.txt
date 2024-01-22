@@ -1,0 +1,7 @@
+let
+  Source = Excel.Workbook(File.Contents("C:\NYC Taxi\taxi_zone_lookup.xlsx"), null, true),
+  ZoneList = Source{[Item="Sheet1",Kind="Sheet"]}[Data],
+  RemoveRows = Table.Skip(ZoneList,4),
+  PromotedHeaders = Table.PromoteHeaders(RemoveRows, [PromoteAllScalars=true, Culture="en-US"])
+in
+  PromotedHeaders

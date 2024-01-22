@@ -1,0 +1,5 @@
+let
+    Source = "Hello",
+    Message = Source & " World"
+in
+    Message

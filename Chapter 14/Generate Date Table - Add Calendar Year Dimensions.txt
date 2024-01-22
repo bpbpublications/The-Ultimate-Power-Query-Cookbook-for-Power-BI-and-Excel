@@ -1,0 +1,31 @@
+let
+  Source = Table.FromList(
+    List.Dates(#date(2023, 1, 1), 365, #duration(1, 0, 0, 0)), 
+    Splitter.SplitByNothing(), 
+    {"Date"}, 
+    null, 
+    ExtraValues.Error
+  ), 
+  UpdateColumnType = Table.TransformColumnTypes(Source, {{"Date", type date}}), 
+  AddCalendarYear = Table.AddColumn(UpdateColumnType, "Year", each Date.Year([Date]), Int64.Type), 
+  AddCalendarMonthNo = Table.AddColumn(
+    AddCalendarYear, 
+    "Month", 
+    each Date.Month([Date]), 
+    Int64.Type
+  ), 
+  AddCalendarMonthName = Table.AddColumn(
+    AddCalendarMonthNo, 
+    "Month Name", 
+    each Date.MonthName([Date]), 
+    type text
+  ), 
+  AddCalendarDayOfWeek = Table.AddColumn(
+    AddCalendarMonthName, 
+    "Day Name", 
+    each Date.DayOfWeekName([Date]), 
+    type text
+  ), 
+  AddDay = Table.AddColumn(AddCalendarDayOfWeek, "Day", each Date.Day([Date]), Int64.Type)
+in
+  AddDay

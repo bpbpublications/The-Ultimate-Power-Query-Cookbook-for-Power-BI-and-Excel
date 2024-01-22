@@ -1,0 +1,12 @@
+let
+    Source = GoogleAnalytics.Accounts([Implementation="2.0"]),
+    Account = Source{[Id="accounts/216837680"]}[Data],
+    Property = Account{[Id="properties/299016560"]}[Data],
+    Cube = Property{[Id="properties/299016560"]}[Data],
+    Model = Cube.Transform(Cube,
+        {
+            {Cube.AddAndExpandDimensionColumn, "firstUserSource", {"firstUserSource"}, {"firstUserSource"}},
+            {Cube.AddMeasureColumn, "activeUsers", "activeUsers"}
+        })
+in
+    Model

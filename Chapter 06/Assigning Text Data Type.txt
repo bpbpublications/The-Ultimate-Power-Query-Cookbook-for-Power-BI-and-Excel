@@ -1,0 +1,6 @@
+let
+    Source = Sql.Database("localhost", "NYC_Taxi"),
+    VendorTable = Source{[Schema="dbo",Item="vendor"]}[Data],
+    ChangedType = Table.TransformColumnTypes(VendorTable,{{"Vendor", type text}})
+in
+    ChangedType

@@ -1,0 +1,5 @@
+let
+  Source = Folder.Files("C:\NYC Taxi\Green_csv"),
+  Navigation1 = Source{[Name="green_tripdata_2023-03.csv"]}[Content]
+in
+  Navigation1

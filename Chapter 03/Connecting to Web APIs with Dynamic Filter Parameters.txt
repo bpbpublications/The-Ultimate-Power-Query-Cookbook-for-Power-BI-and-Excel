@@ -1,0 +1,10 @@
+let
+  FilterDate = DateTime.Date(Date.AddDays(DateTime.LocalNow(), - 30)), 
+  Source = Web.Contents(
+    "https://<tenant>.sharepoint.com/sites/NYCTaxi/_api/web/lists('"
+      & "3b13aab8-5b8f-4b28-a5d4-5ed922c65486"
+      & "')/items?$filter=Created ge " & Date.ToText(FilterDate), 
+    [Headers = [#"Content-Type" = "application/json"]]
+  )
+in
+  Source

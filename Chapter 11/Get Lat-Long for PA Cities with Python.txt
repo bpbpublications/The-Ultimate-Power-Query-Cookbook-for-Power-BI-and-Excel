@@ -1,0 +1,47 @@
+let
+  Source = Web.BrowserContents("https://en.wikipedia.org/wiki/List_of_cities_in_Pennsylvania"), 
+  GetCitiesTable = Html.Table(
+    Source, 
+    {
+      {"Column1", "TABLE.wikitable.sortable > * > TR > :nth-child(1)"}, 
+      {"Column2", "TABLE.wikitable.sortable > * > TR > :nth-child(2)"}, 
+      {"Column3", "TABLE.wikitable.sortable > * > TR > :nth-child(3)"}, 
+      {"Column4", "TABLE.wikitable.sortable > * > TR > :nth-child(4)"}, 
+      {"Column5", "TABLE.wikitable.sortable > * > TR > :nth-child(5)"}, 
+      {"Column6", "TABLE.wikitable.sortable > * > TR > :nth-child(6)"}, 
+      {"Column7", "TABLE.wikitable.sortable > * > TR > :nth-child(7)"}
+    }, 
+    [RowSelector = "TABLE.wikitable.sortable > * > TR"]
+  ), 
+  PromoteHeaders = Table.PromoteHeaders(GetCitiesTable, [PromoteAllScalars = true]), 
+  ChangeDataType = Table.TransformColumnTypes(
+    PromoteHeaders, 
+    {
+      {"Name", type text}, 
+      {"Type", type text}, 
+      {"County[3]", type text}, 
+      {"Class", type text}, 
+      {"Population (2020 Census)", type text}, 
+      {"Incorporationdate (as city)", Int64.Type}, 
+      {"Sq Miles[4]", type number}
+    }
+  ), 
+  RemoveExtraColumns = Table.SelectColumns(ChangeDataType, {"Name"}), 
+  RemoveCharacter = Table.ReplaceValue(RemoveExtraColumns, "†", "", Replacer.ReplaceText, {"Name"}), 
+  AddStateInfo = Table.TransformColumns(RemoveCharacter, {{"Name", each _ & ", PA", type text}}), 
+  RunPythonScript = Python.Execute(
+    "
+        # 'dataset' holds the input data for this script
+        #(lf)import geopandas
+        #(lf)
+        #(lf)dataset[['LatLong','Description']] =  geopandas.tools.geocode(dataset.Name) ", 
+    [dataset = AddStateInfo]
+  ), 
+  ExpandFields = Table.ExpandTableColumn(
+    RunPythonScript, 
+    "Value", 
+    {"Name", "LatLong", "Description"}, 
+    {"City", "LatLong", "Description"}
+  )
+in
+  ExpandFields

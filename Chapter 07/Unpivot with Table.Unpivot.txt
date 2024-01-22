@@ -1,0 +1,20 @@
+let
+  Source = Sql.Database("localhost", "NYC_Taxi"), 
+  TripData = Source{[Schema = "dbo", Item = "trip_data_yellow"]}[Data], 
+  UnpivotData = Table.Unpivot(
+    TripData, 
+    {
+      "fare_amount", 
+      "extra", 
+      "mta_tax", 
+      "tip_amount", 
+      "tolls_amount", 
+      "improvement_surcharge", 
+      "congestion_surcharge", 
+      "Airport_fee"
+    }, 
+    "Attribute", 
+    "Value"
+  )
+in
+  UnpivotData

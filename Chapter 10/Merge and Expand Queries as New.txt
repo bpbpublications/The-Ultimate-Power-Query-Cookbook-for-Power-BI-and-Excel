@@ -1,0 +1,12 @@
+let
+  Source = Table.NestedJoin(
+    trip_data_yellow, 
+    {"VendorID"}, 
+    vendor, 
+    {"VendorID"}, 
+    "vendor", 
+    JoinKind.LeftOuter
+  ), 
+  ExpandMerge = Table.ExpandTableColumn(Source, "vendor", {"Vendor"}, {"Vendor"})
+in
+  ExpandMerge

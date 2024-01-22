@@ -1,0 +1,10 @@
+let
+  Source = Sql.Database("localhost", Taxi_DB), 
+  TripData = Source{[Schema = "dbo", Item = "trip_data_yellow"]}[Data], 
+  ZoneFilter = Table.SelectRows(
+    TripData, 
+    each [PULocationID] = Pickup_Zone 
+    and [DOLocationID] = Dropoff_Zone
+  )
+in
+  ZoneFilter

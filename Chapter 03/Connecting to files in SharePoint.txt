@@ -1,0 +1,11 @@
+let
+  Source = Excel.Workbook(
+    Web.Contents(
+      "https://<tenant>.sharepoint.com/sites/NYCTaxi/Shared%20Documents/Taxi%20Data/taxi_zone_lookup.xlsx"
+    ), 
+    null, 
+    true
+  ), 
+  ExcelData = Source{[Item = "TaxiZoneTable", Kind = "Table"]}[Data]
+in
+  ExcelData

@@ -1,0 +1,22 @@
+let
+  Source = ProjectData, 
+  RemoveColumns = Table.SelectColumns(Source, {"Project_Team", "Index"}), 
+  SplitColumnToRows = Table.ExpandListColumn(
+    Table.TransformColumns(
+      RemoveColumns, 
+      {
+        {
+          "Project_Team", 
+          Splitter.SplitTextByDelimiter(",", QuoteStyle.Csv), 
+          let
+            itemType = (type nullable text) meta [Serialized.Text = true]
+          in
+            type {itemType}
+        }
+      }
+    ), 
+    "Project_Team"
+  ), 
+  ChangedDataType = Table.TransformColumnTypes(SplitColumnToRows, {{"Project_Team", type text}})
+in
+  ChangedDataType

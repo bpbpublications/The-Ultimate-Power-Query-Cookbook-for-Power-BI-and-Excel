@@ -1,0 +1,18 @@
+let
+  Source = Csv.Document(
+    Parameter1, 
+    [Delimiter = ",", Columns = 20, Encoding = 1252, QuoteStyle = QuoteStyle.None]
+  ), 
+  PromotedHeaders = Table.PromoteHeaders(Source, [PromoteAllScalars = true]), 
+  FixTimeStampColumns = Table.RenameColumns(
+    PromotedHeaders, 
+    {
+      {"lpep_pickup_datetime", "pickup_datetime"}, 
+      {"lpep_dropoff_datetime", "dropoff_datetime"}, 
+      {"LPEP_pickup_datetime", "pickup_datetime"}, 
+      {"LPEP_dropoff_datetime", "dropoff_datetime"}
+    }, 
+    MissingField.Ignore
+  )
+in
+  FixTimeStampColumns

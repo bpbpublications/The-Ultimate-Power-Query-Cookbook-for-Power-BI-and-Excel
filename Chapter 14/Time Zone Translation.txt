@@ -1,0 +1,7 @@
+(TimeStamp as datetime, TimeZoneOffset as number) =>
+  let
+    AddUTC = DateTime.AddZone(TimeStamp, 0, 0),
+    OffsetZone = DateTimeZone.SwitchZone(AddUTC, TimeZoneOffset, 0),
+    CleanUpTimestamp = DateTimeZone.RemoveZone(OffsetZone)
+  in
+    CleanUpTimestamp

@@ -1,0 +1,5 @@
+let
+    Source = LinkedIn.SalesNavigator("All Contracts", null, null),
+    Activity = Source{[Key="exportActivityData"]}[Data]
+in
+    Activity

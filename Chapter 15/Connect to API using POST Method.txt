@@ -1,0 +1,22 @@
+let
+  MessageBody = "grant_type=client_credentials&
+        client_id="
+    & ApplicationID
+    & "&
+        client_secret="
+    & ClientSecret
+    & "&
+        scope=https://graph.microsoft.com/.default", 
+  Source = Json.Document(
+    Web.Contents(
+      "https://login.microsoftonline.com/" & 
+    TenantID & "/oauth2/v2.0/token", 
+      [
+        Headers = [Accept = "application/json", 
+          ContentType = "application/x-www-form-urlencoded"], 
+        Content = Text.ToBinary(MessageBody)
+      ]
+    )
+  )
+in
+  Source

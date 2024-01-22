@@ -1,0 +1,5 @@
+(numerator as number, denominator as number, optional ifError as number) =>
+  let
+    Source = if denominator <> 0 then numerator / denominator else ifError
+  in
+    Source

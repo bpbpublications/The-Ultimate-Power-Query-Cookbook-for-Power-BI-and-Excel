@@ -1,0 +1,5 @@
+let
+  Source    = CommonDataService.Database("<tenant>.crm.dynamics.com"), 
+  TableData = Source{[Schema = "dbo", Item = "crc33_taxi_zone_lookup"]}[Data]
+in
+  TableData

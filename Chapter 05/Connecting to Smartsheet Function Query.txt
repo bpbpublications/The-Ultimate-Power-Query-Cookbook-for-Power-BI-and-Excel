@@ -1,0 +1,5 @@
+let
+    Source = Smartsheet.Tables(),
+    Function = Source{[Key=" function_query"]}[Data]
+in
+    Function

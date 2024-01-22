@@ -1,0 +1,9 @@
+let
+  Source = Sql.Database("localhost", "NYC_Taxi"), 
+  TripData = Source{[Schema = "dbo", Item = "trip_data_yellow"]}[Data], 
+  Age = Table.TransformColumns(
+    TripData, 
+    {{"tpep_pickup_datetime", each DateTime.LocalNow() - _, type duration}}
+  )
+in
+  Age

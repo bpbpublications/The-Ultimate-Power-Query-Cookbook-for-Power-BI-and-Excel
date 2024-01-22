@@ -1,0 +1,13 @@
+let
+  Source = Sql.Database("localhost", "NYC_Taxi"), 
+  TripData = Source{[Schema = "dbo", Item = "trip_data_yellow"]}[Data], 
+  MergeQueries = Table.NestedJoin(
+    TripData, 
+    {"VendorID"}, 
+    vendor, 
+    {"VendorID"}, 
+    "vendor", 
+    JoinKind.LeftOuter
+  )
+in
+  MergeQueries

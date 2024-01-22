@@ -1,0 +1,15 @@
+let
+  Source = Excel.Workbook(File.Contents("C:\NYC Taxi\taxi_zone_lookup_fill.xlsx"), null, true), 
+  TaxiZoneTable_Table = Source{[Item = "TaxiZoneTable", Kind = "Table"]}[Data], 
+  ChangedType = Table.TransformColumnTypes(
+    TaxiZoneTable_Table, 
+    {
+      {"Borough", type text}, 
+      {"service_zone", type text}, 
+      {"LocationID", Int64.Type}, 
+      {"Zone", type text}
+    }
+  ), 
+  FilledRows = Table.FillDown(ChangedType, {"Borough", "service_zone"})
+in
+  FilledRows

@@ -1,0 +1,5 @@
+let
+    Source = Salesforce.Reports("https://login.salesforce.com/"),
+    Report = Source{[Name="00OHu00000AOcH5MAL"]}[Data]
+in
+    Report

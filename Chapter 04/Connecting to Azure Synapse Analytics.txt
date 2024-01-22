@@ -1,0 +1,7 @@
+let
+  Source = Synapse.Contents(null),
+  Workspace = Source{[Name="nyctaxi2023"]}[Data],
+  Database = Workspace{[Name="Taxi_Data"]}[Data],
+  Table = Database{[Name="trip_data_yellow",Schema="dbo"]}[Data]
+in
+  Table

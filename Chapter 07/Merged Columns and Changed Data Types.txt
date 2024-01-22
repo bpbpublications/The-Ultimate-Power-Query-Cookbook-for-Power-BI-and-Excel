@@ -1,0 +1,15 @@
+let
+  Source = Sql.Database("localhost", "NYC_Taxi"), 
+  TripData = Source{[Schema = "dbo", Item = "trip_data_yellow"]}[Data], 
+  MergedColumns = Table.CombineColumns(
+    Table.TransformColumnTypes(
+      TripData, 
+      {{"PULocationID", type text}, {"DOLocationID", type text}}, 
+      "en-US"
+    ), 
+    {"PULocationID", "DOLocationID"}, 
+    Combiner.CombineTextByDelimiter("=>"), 
+    "PuDoLocations"
+  )
+in
+  MergedColumns

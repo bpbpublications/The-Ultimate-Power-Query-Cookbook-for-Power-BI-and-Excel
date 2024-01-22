@@ -1,0 +1,16 @@
+let
+  Source = Excel.Workbook(File.Contents("C:\data\ProjectData.xlsx"), null, true), 
+  Data = Source{[Item = "ProjectData", Kind = "Table"]}[Data], 
+  ChangedDataType = Table.TransformColumnTypes(
+    Data, 
+    {
+      {"Submission_Date", type date}, 
+      {"SOW_Total", Int64.Type}, 
+      {"Estimated_Margin", type number}, 
+      {"Business_Unit", type text}, 
+      {"Project_Team", type text}
+    }
+  ), 
+  AddIndex = Table.AddIndexColumn(ChangedDataType, "Index", 1, 1, Int64.Type)
+in
+  AddIndex

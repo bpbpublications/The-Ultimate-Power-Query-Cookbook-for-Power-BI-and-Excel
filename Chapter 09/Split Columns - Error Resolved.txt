@@ -1,0 +1,16 @@
+let
+  Source = Sql.Database("localhost", "NYC_Taxi"), 
+  GreenTripData = Source{[Schema = "dbo", Item = "trip_data_green"]}[Data], 
+  SplitColumns = Table.SplitColumn(
+    Table.TransformColumnTypes(GreenTripData, {{"lpep_pickup_datetime", type text}}, "en-US"), 
+    "lpep_pickup_datetime", 
+    Splitter.SplitTextByDelimiter(" ", QuoteStyle.Csv), 
+    {"PickupDate", "PickupTime", "PickupMeridiem"}, 
+    "No Data"
+  ), 
+  ChangeDataType = Table.TransformColumnTypes(
+    SplitColumns, 
+    {{"PickupDate", type date}, {"PickupTime", type time}, {"PickupMeridiem", type text}}
+  )
+in
+  ChangeDataType

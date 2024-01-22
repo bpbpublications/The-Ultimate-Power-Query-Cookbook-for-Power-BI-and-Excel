@@ -1,0 +1,6 @@
+let
+  Source = Sql.Database("localhost", "NYC_Taxi"), 
+  TripData = Source{[Schema = "dbo", Item = "trip_data_yellow"]}[Data], 
+  PivotData = Table.Pivot(TripData, List.Distinct(TripData[Attribute]), "Attribute", "Value")
+in
+  PivotData

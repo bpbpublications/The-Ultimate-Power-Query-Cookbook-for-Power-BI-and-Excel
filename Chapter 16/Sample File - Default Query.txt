@@ -1,0 +1,5 @@
+let
+  Source = Folder.Files("C:\NYC Taxi\Green_csv"),
+  Navigation1 = Source{0}[Content]
+in
+  Navigation1

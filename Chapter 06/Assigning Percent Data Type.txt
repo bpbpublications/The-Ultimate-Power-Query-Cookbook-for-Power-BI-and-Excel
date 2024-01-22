@@ -1,0 +1,24 @@
+let
+  Source = Csv.Document(
+    File.Contents("C:\NYC Taxi\trip_data_green.csv"), 
+    [Delimiter = ",", Columns = 20, Encoding = 1252, QuoteStyle = QuoteStyle.None]
+  ), 
+  PromotedHeaders = Table.PromoteHeaders(Source, [PromoteAllScalars = true]), 
+  ChangeWholeNumber = Table.TransformColumnTypes(
+    PromotedHeaders, 
+    {{"VendorID", Int64.Type}, {"RatecodeID", Int64.Type}}
+  ), 
+  ChangeDecimalNumber = Table.TransformColumnTypes(
+    ChangeWholeNumber, 
+    {{"trip_distance", Decimal.Type}}
+  ), 
+  ChangeFixedDecimalNumber = Table.TransformColumnTypes(
+    ChangeDecimalNumber, 
+    {{"fare_amount", Currency.Type}}
+  ), 
+  ChangePercentNumber = Table.TransformColumnTypes(
+    ChangeFixedDecimalNumber, 
+    {{"tip_percent", Percentage.Type}}
+  )
+in
+  ChangePercentNumber

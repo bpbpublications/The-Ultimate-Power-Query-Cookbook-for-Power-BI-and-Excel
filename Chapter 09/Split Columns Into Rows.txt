@@ -1,0 +1,22 @@
+let
+  Source = Sql.Database("localhost", "NYC_Taxi"), 
+  GreenTripData = Source{[Schema = "dbo", Item = "trip_data_green"]}[Data], 
+  SplitColumn = Table.ExpandListColumn(
+    Table.TransformColumns(
+      Table.TransformColumnTypes(GreenTripData, {{"lpep_dropoff_datetime", type text}}, "en-US"), 
+      {
+        {
+          "lpep_dropoff_datetime", 
+          Splitter.SplitTextByEachDelimiter({" "}, QuoteStyle.Csv, false), 
+          let
+            itemType = (type nullable text) meta [Serialized.Text = true]
+          in
+            type {itemType}
+        }
+      }
+    ), 
+    "lpep_dropoff_datetime"
+  ), 
+  ChangedDataType = Table.TransformColumnTypes(SplitColumn, {{"lpep_dropoff_datetime", type text}})
+in
+  ChangedDataType

@@ -1,0 +1,4 @@
+let
+ Source = Json.Document(File.Contents("C:\NYC Taxi\taxi_zone_lookup.json"))
+in
+ Source

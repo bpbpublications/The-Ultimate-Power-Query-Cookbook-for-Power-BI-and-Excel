@@ -1,0 +1,14 @@
+let
+   Source = CosmosDB.Contents(
+    "https://<instance>.documents.azure.com:443/", 
+    [
+     NUMBER_OF_RETRIES             = null, 
+     ENABLE_AVERAGE_FUNCTION_PASSDOWN     = null, 
+     ENABLE_SORT_PASSDOWN_FOR_MULTIPLE_COLUMNS = null
+    ]
+   ), 
+   Database = Source{[Name = "ToDoList", Kind = "Database"]}[Data], 
+   Schema = Database{[Name = "Items", Kind = "Schema"]}[Data], 
+   Table = Schema{[Name = "Items", Kind = "Table"]}[Data]
+in
+   Table

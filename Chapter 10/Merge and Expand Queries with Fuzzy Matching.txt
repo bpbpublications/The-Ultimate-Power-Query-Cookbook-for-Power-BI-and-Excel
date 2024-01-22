@@ -1,0 +1,13 @@
+let
+  Source = Table.FuzzyNestedJoin(
+    trip_data_yellow, 
+    {"VendorID"}, 
+    vendor, 
+    {"VendorID"}, 
+    "vendor", 
+    JoinKind.LeftOuter, 
+    [IgnoreCase = true, IgnoreSpace = true, Threshold = 0.75, NumberOfMatches = 5]
+  ), 
+  ExpandMerge = Table.ExpandTableColumn(Source, "vendor", {"Vendor"}, {"Vendor"})
+in
+  ExpandMerge

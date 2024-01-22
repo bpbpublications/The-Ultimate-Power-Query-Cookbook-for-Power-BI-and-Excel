@@ -1,0 +1,15 @@
+let
+  Source = Excel.Workbook(File.Contents("C:\NYC Taxi\taxi_zone_lookup_errors.xlsx"), null, true), 
+  TaxiZoneTable_Table = Source{[Item = "TaxiZoneTable", Kind = "Table"]}[Data], 
+  ChangedType = Table.TransformColumnTypes(
+    TaxiZoneTable_Table, 
+    {
+      {"LocationID", Int64.Type}, 
+      {"Borough", type text}, 
+      {"Zone", type text}, 
+      {"service_zone", type text}
+    }
+  ), 
+  ReplacedErrors = Table.ReplaceErrorValues(ChangedType, {{"LocationID", 0}})
+in
+  ReplacedErrors

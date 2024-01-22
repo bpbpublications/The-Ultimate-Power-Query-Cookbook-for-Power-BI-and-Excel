@@ -1,0 +1,5 @@
+let
+    Source = Salesforce.Data("https://login.salesforce.com/"),
+    Table = Source{[Name="Account"]}[Data]
+in
+    Table

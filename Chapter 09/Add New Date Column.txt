@@ -1,0 +1,11 @@
+let
+  Source = Sql.Database("localhost", "NYC_Taxi"), 
+  GreenTripData = Source{[Schema = "dbo", Item = "trip_data_green"]}[Data], 
+  PickupDate = Table.AddColumn(
+    GreenTripData, 
+    "PickupDate", 
+    each DateTime.Date([lpep_pickup_datetime]), 
+    type date
+  )
+in
+  PickupDate

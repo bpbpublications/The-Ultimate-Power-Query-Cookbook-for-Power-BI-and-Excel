@@ -1,0 +1,9 @@
+(PersonName as text, TransactionDate as date) =>
+  let
+    Source = Team_Assignment, 
+    FilterPerson = Table.SelectRows(Source, each ([Name] = PersonName)), 
+    FilterDate = Table.SelectRows(FilterPerson, each [EffectiveDate] <= TransactionDate), 
+    SortDates = Table.Sort(FilterDate, {{"EffectiveDate", Order.Descending}}), 
+    KeepFirstRow = Table.FirstN(SortDates, 1)
+  in
+    KeepFirstRow{0}[AssignedTeam]

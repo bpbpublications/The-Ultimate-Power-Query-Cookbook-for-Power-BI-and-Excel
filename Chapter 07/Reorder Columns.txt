@@ -1,0 +1,20 @@
+let
+  Source = Sql.Database("localhost", "NYC_Taxi"), 
+  TripData = Source{[Schema = "dbo", Item = "trip_data_yellow"]}[Data], 
+  ReorderColumns = Table.ReorderColumns(
+    TripData, 
+    {
+      "TripId", 
+      "Airport_fee", 
+      "congestion_surcharge", 
+      "total_amount", 
+      "improvement_surcharge", 
+      "tolls_amount", 
+      "tip_amount", 
+      "mta_tax", 
+      "extra", 
+      "fare_amount"
+    }
+  )
+in
+  ReorderColumns

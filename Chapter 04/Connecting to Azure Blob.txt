@@ -1,0 +1,5 @@
+let
+    Source = AzureStorage.Blobs("<Account Name>"),
+    Folder = Source{[Name="yellow"]}[Data]
+in
+    Folder

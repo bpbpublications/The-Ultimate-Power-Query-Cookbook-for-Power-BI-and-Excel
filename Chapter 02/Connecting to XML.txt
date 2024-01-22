@@ -1,0 +1,4 @@
+let
+ Source = Xml.Document(File.Contents("C:\NYC Taxi\taxi_zone_lookup.xml"))
+in
+ Source

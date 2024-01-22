@@ -1,0 +1,8 @@
+let
+  Source = OData.Feed(
+    "https://<tenant>.sharepoint.com/sites/NYCTaxi/_api/web/lists('3b13aab8-5b8f-4b28-a5d4-5ed922c65486')/items?$select=Title,Borough,Zone,service_zone", 
+    null, 
+    [Implementation = "2.0"]
+  )
+in
+  Source

@@ -1,0 +1,15 @@
+let
+  Source = Excel.Workbook(File.Contents("C:\data\SampleData.xlsx"), null, true),
+  SampleData = Source{[Item = "SampleData", Kind = "Table"]}[Data],
+  ChangedColumnTypes = Table.TransformColumnTypes(
+    SampleData,
+    {{"Column1", Int64.Type}, {"Column2", Int64.Type}}
+  ),
+  DivideFunction = Table.AddColumn(
+    ChangedColumnTypes,
+    "Div_Result",
+    each fx_Division_0([Column1], [Column2], 0),
+    Int64.Type
+  )
+in
+  DivideFunction

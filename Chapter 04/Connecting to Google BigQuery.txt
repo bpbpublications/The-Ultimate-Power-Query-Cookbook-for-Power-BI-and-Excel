@@ -1,0 +1,7 @@
+let
+  Source = GoogleBigQuery.Database(),
+  Database = Source{[Name=" nyc-taxi-391815",Kind="Database"]}[Data],
+  Schema = Database{[Name=" nyc_taxi",Kind="Schema"]}[Data],
+  Table = Schema{[Name="taxi_zone_lookup",Kind="Table"]}[Data]
+in
+  Table

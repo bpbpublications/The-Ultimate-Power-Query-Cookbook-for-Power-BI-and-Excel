@@ -1,0 +1,6 @@
+let
+    Source = Csv.Document(File.Contents("C:\NYC Taxi\trip_data_green.csv"),[Delimiter=",", Columns=20, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+    PromotedHeaders = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+    TextAfter = Table.TransformColumns(PromotedHeaders, {{"lpep_pickup_datetime", each Text.AfterDelimiter(_, "-", {1, RelativePosition.FromEnd}), type text}})
+in
+    TextAfter

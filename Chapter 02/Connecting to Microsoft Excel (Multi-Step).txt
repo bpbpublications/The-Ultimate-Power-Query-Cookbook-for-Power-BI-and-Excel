@@ -1,0 +1,6 @@
+let
+ Source = File.Contents("C:\NYC Taxi\taxi_zone_lookup.xlsx"),
+ Contents = Excel.Workbook(Source, null, true),
+ Data = Contents{[Item="TaxiZoneTable",Kind="Table"]}[Data]
+in
+ Data

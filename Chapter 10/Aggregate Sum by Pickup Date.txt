@@ -1,0 +1,10 @@
+let
+  Source = Sql.Database("localhost", "NYC_Taxi"), 
+  TripData = Source{[Schema = "dbo", Item = "trip_data_yellow"]}[Data], 
+  AggregatedRows = Table.Group(
+    TripData, 
+    "PickupDate", 
+    {{"Sum_Total_Amount", each List.Sum([total_amount]), type nullable number}}
+  )
+in
+  AggregatedRows

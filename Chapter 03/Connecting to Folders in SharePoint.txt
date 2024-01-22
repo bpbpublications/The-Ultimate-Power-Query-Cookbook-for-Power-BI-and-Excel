@@ -1,0 +1,7 @@
+let
+  Source = SharePoint.Files(
+    "https://<tenant>.sharepoint.com/sites/NYCTaxi/", 
+    [ApiVersion = 15]
+  )
+in
+  Source

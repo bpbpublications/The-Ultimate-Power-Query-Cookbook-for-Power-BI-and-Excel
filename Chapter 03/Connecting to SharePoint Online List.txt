@@ -1,0 +1,8 @@
+let
+  Source = SharePoint.Tables(
+    "https://<tenant>.sharepoint.com/sites/NYCTaxi/", 
+    [Implementation = "2.0", ViewMode = "Default"]
+  ), 
+  ListData = Source{[Id = "3b13aab8-5b8f-4b28-a5d4-5ed922c65486"]}[Items]
+in
+  ListData

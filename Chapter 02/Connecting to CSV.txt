@@ -1,0 +1,5 @@
+let
+ Source = Csv.Document(
+  File.Contents("C:\NYC Taxi\taxi_zone_lookup.csv"), 4, ",", null, 1252)
+in
+ Source

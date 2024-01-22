@@ -1,0 +1,8 @@
+let
+  Source = Sql.Database("localhost", "NYC_Taxi"), 
+  TripData = Source{[Schema = "dbo", Item = "trip_data_yellow"]}[Data], 
+  IncrementalFilter = Table.SelectRows(TripData, 
+    each [tpep_pickup_datetime] >= RangeStart and [tpep_pickup_datetime] <= RangeEnd
+  )
+in
+  IncrementalFilter

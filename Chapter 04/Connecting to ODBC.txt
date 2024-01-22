@@ -1,0 +1,7 @@
+let
+  Source = Odbc.DataSource("dsn=TaxiData", [HierarchicalNavigation=true]),
+  Database = Source{[Name="NYC_Taxi",Kind="Database"]}[Data],
+  Schema = Database{[Name="dbo",Kind="Schema"]}[Data],
+  Table = Schema{[Name="taxi_zone_lookup",Kind="Table"]}[Data]
+in
+  Table

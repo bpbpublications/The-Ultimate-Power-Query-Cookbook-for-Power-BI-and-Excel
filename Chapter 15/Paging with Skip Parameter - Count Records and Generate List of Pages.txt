@@ -1,0 +1,16 @@
+let
+  RecordCount = Json.Document(
+    Web.Contents(
+      GraphUrl & "groups/$count", 
+      [Headers = [Authorization = "Bearer " & fx_AuthToken(), 
+        ConsistencyLevel = "eventual"]]
+    )
+  ), 
+  PageCount = Number.RoundUp(RecordCount / RecordLimit), 
+  PageList = List.Numbers(0, PageCount, 1), 
+  ListToTable = Table.FromList(PageList, Splitter.SplitByNothing(), null, null, 
+    ExtraValues.Error), 
+  TextToNumber=Table.TransformColumnTypes(ListToTable, {{"Column1", Int64.Type}}), 
+  RenamePageNo = Table.RenameColumns(TextToNumber, {{"Column1", "PageNo"}})
+in
+  RenamePageNo

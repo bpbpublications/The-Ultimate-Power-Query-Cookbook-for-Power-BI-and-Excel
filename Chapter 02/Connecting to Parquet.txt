@@ -1,0 +1,4 @@
+let
+ Source = Parquet.Document(File.Contents("c:\NYC Taxi\taxi_zone_lookup.parquet"))
+in
+ Source

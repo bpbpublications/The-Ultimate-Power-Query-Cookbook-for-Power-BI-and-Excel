@@ -1,0 +1,18 @@
+let
+  Source = Sql.Database("localhost", "NYC_Taxi"), 
+  GreenTripData = Source{[Schema = "dbo", Item = "trip_data_green"]}[Data], 
+  ConditionalColumn = Table.AddColumn(
+    GreenTripData, 
+    "FareBucket", 
+    each 
+      if [total_amount] > 75 then
+        "High"
+      else if [total_amount] > 30 then
+        "Medium"
+      else if [total_amount] > 0 then
+        "Low"
+      else
+        "Loss"
+  )
+in
+  ConditionalColumn

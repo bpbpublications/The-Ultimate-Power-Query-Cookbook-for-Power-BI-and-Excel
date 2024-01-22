@@ -1,0 +1,16 @@
+(TimeStamp as datetime, TimeZoneOffset as number, ObserveDST as logical) =>
+  let
+    TimeStampYear = Date.Year(TimeStamp), 
+    AddUTC = DateTime.AddZone(TimeStamp, 0, 0), 
+    OffsetZone = 
+      if DateTime.Date(TimeStamp)
+        >= Date.AddWeeks(Date.EndOfWeek(#date(TimeStampYear, 3, 1), Day.Monday), 1)
+          and DateTime.Date(TimeStamp)
+        <= Date.EndOfWeek(#date(TimeStampYear, 11, 1), Day.Monday) and ObserveDST = true
+      then
+        DateTimeZone.SwitchZone(AddUTC, TimeZoneOffset + 1, 0)
+      else
+        DateTimeZone.SwitchZone(AddUTC, TimeZoneOffset, 0), 
+    CleanUpTimestamp = DateTimeZone.RemoveZone(OffsetZone)
+  in
+    CleanUpTimestamp

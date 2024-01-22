@@ -1,0 +1,6 @@
+let
+    Source = Smartsheet.Tables(),
+    Project = Source{[Key="1583533740320644"]}[Data],
+    Tasks = Project{[Key="8755222050459524"]}[Data]
+in
+    Tasks

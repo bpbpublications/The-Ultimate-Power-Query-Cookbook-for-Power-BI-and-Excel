@@ -1,0 +1,4 @@
+let
+  Source = List.Dates(#date(2023, 1, 1), 365, #duration(1, 0, 0, 0))
+in
+  Source

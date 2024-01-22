@@ -1,0 +1,16 @@
+let
+  Source = Sql.Database("localhost", "NYC_Taxi"), 
+  GreenTripData = Source{[Schema = "dbo", Item = "trip_data_green"]}[Data], 
+  FeePercentOfTotal = Table.AddColumn(
+    GreenTripData, 
+    "FeePercentOfTotal", 
+    each 
+      if [total_amount] <= 0 then
+        0
+      else
+        ([congestion_surcharge] + [improvement_surcharge] + [tolls_amount] + [extra])
+          / [total_amount], 
+    Percentage.Type
+  )
+in
+  FeePercentOfTotal

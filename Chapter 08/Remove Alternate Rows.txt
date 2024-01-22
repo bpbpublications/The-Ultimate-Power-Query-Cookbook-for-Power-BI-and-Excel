@@ -1,0 +1,12 @@
+let
+  Source = Excel.Workbook(File.Contents("C:\NYC Taxi\taxi_zone_lookup.xlsx"), null, true), 
+  Sheet1_Sheet = Source{[Item = "Sheet1", Kind = "Sheet"]}[Data], 
+  RemoveTopRows = Table.Skip(Sheet1_Sheet, 4), 
+  PromoteHeaders = Table.PromoteHeaders(RemoveTopRows, [PromoteAllScalars = true]), 
+  SelectColumns = Table.SelectColumns(
+    PromoteHeaders, 
+    {"LocationID", "Borough", "Zone", "service_zone"}
+  ), 
+  RemoveAlternateRows = Table.AlternateRows(SelectColumns, 1, 1, 5)
+in
+  RemoveAlternateRows

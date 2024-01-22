@@ -1,0 +1,8 @@
+let
+    Source = PowerPlatform.Dataflows(null),
+    Workspaces = Source{[Name="Workspaces"]}[Data],
+    NYC_Taxi_Workspace = Workspaces{[workspaceId="<Workspace GUID>"]}[Data],
+    Dataflow = NYC_Taxi_Workspace{[dataflowId="<Dataflow GUID>"]}[Data],
+    Table = Dataflow{[entityName="taxi_zone_lookup"]}[Data]
+in
+    Table

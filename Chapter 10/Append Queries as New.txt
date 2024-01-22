@@ -1,0 +1,7 @@
+let
+  Source = Table.Combine(
+    {trip_data_green, trip_data_yellow}, 
+    {"pickup_datetime", "dropoff_datetime", "PULocationID", "DOLocationID"}
+  )
+in
+  Source

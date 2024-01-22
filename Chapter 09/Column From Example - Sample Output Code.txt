@@ -1,0 +1,11 @@
+let
+  Source = Sql.Database("localhost", "NYC_Taxi"), 
+  dbo_taxi_zone_lookup = Source{[Schema = "dbo", Item = "taxi_zone_lookup"]}[Data], 
+  #"Inserted Merged Column" = Table.AddColumn(
+    dbo_taxi_zone_lookup, 
+    "ZoneLabel", 
+    each Text.Combine({[Zone], " ( ", Text.From([LocationID], "en-US"), " | ", [Borough], " )"}), 
+    type text
+  )
+in
+  #"Inserted Merged Column"

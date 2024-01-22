@@ -1,0 +1,6 @@
+let
+  Source       = Folder.Files("C:\NYC Taxi\Green_csv"), 
+  SortFileName = Table.Sort(Source, {{"Name", Order.Descending}}), 
+  Navigation1  = SortFileName{0}[Content]
+in
+  Navigation1

@@ -1,0 +1,9 @@
+let
+  Source = Sql.Database("localhost", "NYC_Taxi"), 
+  dbo_payment_type = Source{[Schema = "dbo", Item = "payment_type"]}[Data], 
+  AddPrefix = Table.TransformColumns(
+    dbo_payment_type, 
+    {{"PaymentType", each "PMT: " & _, type text}}
+  )
+in
+  AddPrefix

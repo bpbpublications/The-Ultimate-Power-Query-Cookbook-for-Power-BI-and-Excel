@@ -1,0 +1,7 @@
+let
+  Source = Snowflake.Databases("<instance>.snowflakecomputing.com","COMPUTE_WH"),
+  Database = Source{[Name="NYC_TAXI",Kind="Database"]}[Data],
+  Schema = Database{[Name="TRIP_DATA",Kind="Schema"]}[Data],
+  Table = Schema{[Name="TRIP_DATA_YELLOW",Kind="Table"]}[Data]
+in
+  Table

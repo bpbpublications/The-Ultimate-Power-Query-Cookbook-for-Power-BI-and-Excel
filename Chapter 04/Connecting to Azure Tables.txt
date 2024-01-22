@@ -1,0 +1,5 @@
+let
+    Source = AzureStorage.Tables("https://<Account Name>.table.core.windows.net"),
+    Table = Source{[Name="taxizones"]}[Data]
+in
+    Table

@@ -1,0 +1,5 @@
+let
+    Source = VSTS.AnalyticsViews("<organization>", "NYC_Taxi"),
+    Table = Source{[Id="9f8f19c8-1309-45c6-bbf1-722bcf464dd0",Kind="Table"]}[Data]
+in
+    Table

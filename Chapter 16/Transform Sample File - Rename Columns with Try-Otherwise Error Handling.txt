@@ -1,0 +1,24 @@
+let
+  Source = Csv.Document(
+    Parameter1, 
+    [Delimiter = ",", Columns = 20, Encoding = 1252, QuoteStyle = QuoteStyle.None]
+  ), 
+  PromotedHeaders = Table.PromoteHeaders(Source, [PromoteAllScalars = true]), 
+  Fix_lpep = try
+    Table.RenameColumns(
+      PromotedHeaders, 
+      {{"lpep_pickup_datetime", "pickup_datetime"}, 
+      {"lpep_dropoff_datetime", "dropoff_datetime"}}
+    )
+  otherwise
+    PromotedHeaders, 
+  Fix_LPEP = try
+    Table.RenameColumns(
+      PromotedHeaders, 
+      {{"LPEP_pickup_datetime", "pickup_datetime"}, 
+      {"LPEP_dropoff_datetime", "dropoff_datetime"}}
+    )
+  otherwise
+    Fix_lpep
+in
+  Fix_LPEP

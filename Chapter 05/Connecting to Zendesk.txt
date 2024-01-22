@@ -1,0 +1,5 @@
+let
+    Source = Zendesk.Tables("https://<instance>.zendesk.com"),
+    Table = Source{[Key="tickets"]}[Data]
+in
+    Table

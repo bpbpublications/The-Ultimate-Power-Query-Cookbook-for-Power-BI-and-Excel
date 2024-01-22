@@ -1,0 +1,11 @@
+let
+  Source = Sql.Database("localhost", "NYC_Taxi"), 
+  GreenTripData = Source{[Schema = "dbo", Item = "trip_data_green"]}[Data], 
+  DuplicateColumn = Table.DuplicateColumn(
+    GreenTripData, 
+    "lpep_pickup_datetime", 
+    "lpep_pickup_datetime_text", 
+    type text
+  )
+in
+  DuplicateColumn

@@ -1,0 +1,13 @@
+(PageNo as number) =>
+  let
+    Source = Json.Document(
+      Web.Contents(
+        GraphUrl & "groups", 
+        [
+          RelativePath = "?$skip=" & Number.ToText(PageNo * RecordLimit), 
+          Headers = [Authorization = "Bearer " & fx_AuthToken()]
+        ]
+      )
+    )[value]
+  in
+    Source

@@ -1,0 +1,96 @@
+let
+  GetGroupList = (Path as text) =>
+    let
+      Source = Json.Document(
+        Web.Contents(GraphUrl & "groups", 
+          [RelativePath = "?" & Path, 
+            Headers = [Authorization = "Bearer " & fx_AuthToken()]]
+        )
+      ), 
+      GroupItems = @Source[value], 
+      Result = try
+        @GroupItems & 
+          @GetGroupList(Text.AfterDelimiter(@Source[#"@odata.nextLink"], "?"))
+      otherwise
+        @GroupItems
+    in
+      Result, 
+  GroupList = GetGroupList("$top=" & Number.ToText(RecordLimit)), 
+  ListToTable = 
+    Table.FromList(GroupList, Splitter.SplitByNothing(), null, null, ExtraValues.Error), 
+  ExpandRecords = Table.ExpandRecordColumn(
+    ListToTable, 
+    "Column1", 
+    {
+      "id", 
+      "deletedDateTime", 
+      "classification", 
+      "createdDateTime", 
+      "creationOptions", 
+      "description", 
+      "displayName", 
+      "expirationDateTime", 
+      "groupTypes", 
+      "isAssignableToRole", 
+      "mail", 
+      "mailEnabled", 
+      "mailNickname", 
+      "membershipRule", 
+      "membershipRuleProcessingState", 
+      "onPremisesDomainName", 
+      "onPremisesLastSyncDateTime", 
+      "onPremisesNetBiosName", 
+      "onPremisesSamAccountName", 
+      "onPremisesSecurityIdentifier", 
+      "onPremisesSyncEnabled", 
+      "preferredDataLocation", 
+      "preferredLanguage", 
+      "proxyAddresses", 
+      "renewedDateTime", 
+      "resourceBehaviorOptions", 
+      "resourceProvisioningOptions", 
+      "securityEnabled", 
+      "securityIdentifier", 
+      "theme", 
+      "visibility", 
+      "onPremisesProvisioningErrors", 
+      "serviceProvisioningErrors"
+    }, 
+    {
+      "id", 
+      "deletedDateTime", 
+      "classification", 
+      "createdDateTime", 
+      "creationOptions", 
+      "description", 
+      "displayName", 
+      "expirationDateTime", 
+      "groupTypes", 
+      "isAssignableToRole", 
+      "mail", 
+      "mailEnabled", 
+      "mailNickname", 
+      "membershipRule", 
+      "membershipRuleProcessingState", 
+      "onPremisesDomainName", 
+      "onPremisesLastSyncDateTime", 
+      "onPremisesNetBiosName", 
+      "onPremisesSamAccountName", 
+      "onPremisesSecurityIdentifier", 
+      "onPremisesSyncEnabled", 
+      "preferredDataLocation", 
+      "preferredLanguage", 
+      "proxyAddresses", 
+      "renewedDateTime", 
+      "resourceBehaviorOptions", 
+      "resourceProvisioningOptions", 
+      "securityEnabled", 
+      "securityIdentifier", 
+      "theme", 
+      "visibility", 
+      "onPremisesProvisioningErrors", 
+      "serviceProvisioningErrors"
+    }
+  )
+in
+  ExpandRecords

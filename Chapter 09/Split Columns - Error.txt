@@ -1,0 +1,12 @@
+let
+  Source = Sql.Database("localhost", "NYC_Taxi"), 
+  GreenTripData = Source{[Schema = "dbo", Item = "trip_data_green"]}[Data], 
+  SplitColumns = Table.SplitColumn(
+    GreenTripData, 
+    "lpep_pickup_datetime", 
+    Splitter.SplitTextByDelimiter(" ", QuoteStyle.Csv), 
+    3, 
+    "No Data"
+  )
+in
+  SplitColumns

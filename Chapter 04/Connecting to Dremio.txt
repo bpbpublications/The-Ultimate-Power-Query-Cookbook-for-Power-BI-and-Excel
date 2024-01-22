@@ -1,0 +1,6 @@
+let
+    Source = DremioCloud.DatabasesByServer("sql.dremio.cloud", null),
+    Schema = Source{[Name="Samples.samples.dremio.com",Kind="Schema"]}[Data],
+    Table = Schema{[Name="NYC-taxi-trips-iceberg",Kind="Table"]}[Data]
+in
+    Table
